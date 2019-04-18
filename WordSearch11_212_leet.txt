@@ -1,0 +1,60 @@
+/* strncpy example */
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <iostream>
+#include <sstream>
+#include <stack>
+#include <vector>
+
+using namespace std;
+
+bool findWordsHelper(vector<vector<char>>&board, string word)
+{
+    int row = board.size();
+    int col = board[0].size();
+    int r = 0, c = 0;
+
+    for(int i = 0; i < word.length(); i++)
+    {
+        for(r = 0; r < row; r++)
+        {
+            for(;c < col; c++) {
+                if(board[r][c] ==   
+            }
+        }
+    }    
+    return false;
+}
+
+vector<string> findWords(vector<vector<char>>&board, vector<string> words)
+{
+    vector<string> vw;
+    
+    for(auto elm: words) {
+        if(findWordsHelper(board, elm)
+            vw.insert(elm);
+    }
+
+    return vw;
+}
+
+int main () {
+    vector<string> words = {"oath","pea","eat","rain"};
+    vector<vector<char>> board = {
+                                    {'o','a','a','n'},
+                                    {'e','t','a','e'},
+                                    {'i','h','k','r'},
+                                    {'i','f','l','v'}
+                                };
+
+  
+    vector<string> validWords = findWords(board, words);
+    for(auto elm: validWords)
+        cout << elm << " , ";
+    
+    cout << endl;
+  
+    return 0;   
+}
+

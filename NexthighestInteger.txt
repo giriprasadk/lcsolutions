@@ -1,0 +1,65 @@
+/* strncpy example */
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <iostream>
+#include <sstream>
+#include <stack>
+#include <vector>
+
+using namespace std;
+
+void reverse(string &str, int s, int e)
+{
+    cout << "string is " << str << " " << s << " " << e << endl;
+    while(s < e)
+    {
+        char temp = str[s];
+        str[s] = str[e];
+        str[e] = temp;
+        s++; e--;
+    }
+    cout << "output strting is " << str << endl;
+}
+
+int LeastHighest(string str, int s, int e)
+{
+    int comp = s;
+    s = s+1; int lh = 0;
+    while(s < e)
+    {
+        if(str[s] > str[comp]) {
+            lh = s;
+        }  
+        s++;
+    }
+    return lh;
+}    
+
+int nextLargestInteger(int number)
+{
+    string numStr = to_string(number);
+    int i = 0;
+    
+    for(i = numStr.length()-1; i >=0; i--)
+    {
+        if(numStr[i] > numStr[i-1]) {
+            int lh = LeastHighest(numStr, i-1, numStr.length());
+            char temp = numStr[lh];
+            numStr[lh] = numStr[i-1];
+            numStr[i-1] = temp;
+            break;
+        }    
+    } 
+    cout << "middle number is " << numStr << endl;
+    reverse(numStr, i, numStr.length()-1);
+    return atoi(numStr.c_str());
+}
+
+int main () {
+    int n = 52972;
+    cout << "next large integer of " << n << "is: " << nextLargestInteger(n) << endl;
+    
+    return 0;   
+}
+

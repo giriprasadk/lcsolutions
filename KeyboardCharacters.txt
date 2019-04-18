@@ -1,0 +1,57 @@
+/* strncpy example */
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <iostream>
+#include <algorithm>
+#include <sstream>
+#include <stack>
+#include <vector>
+
+using namespace std;
+
+ vector<string> findWords(vector<string>& words) {
+        vector<string> res;
+        vector<vector<char>>letters = { {'Q', 'W', 'E', 'R', 'T', 'Y', 'I', 'O', 'P'},
+                                 {'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'},
+                                 {'Z', 'X', 'C', 'V', 'B', 'N', 'M'}   
+                                };
+        for(string& elm: words) {
+            int row1=0, row2=0, row3=0;
+                        
+            for(char& c: elm)  {
+                if(find(letters[0].begin(), letters[0].end(), toupper(c)) != letters[0].end()) {
+                   // cout << "first" << endl;
+                    row1++;
+                }    
+                if(find(letters[1].begin(), letters[1].end(), toupper(c)) != letters[1].end()) {
+                    //cout << "second" << endl;
+                    row2++;
+                }    
+                if(find(letters[2].begin(), letters[2].end(), toupper(c)) != letters[2].end()) {
+                    //cout << "third" << endl;
+                    row3++;
+                }    
+            }    
+            int n = elm.size();
+            cout << "word is " << elm << " Size is " << elm.size() << endl;
+            if((row1 == n) || (row2 == n) || (row3 == n))
+                res.push_back(elm);
+                
+            row1=0, row2=0, row3=0;
+            
+        }
+        return res;
+    }
+    
+    
+int main () {
+    vector<string>input = {"Hello", "Alaska", "Dad", "Peace"};
+    
+    vector<string>output = findWords(input);
+    for(string& elm: output)
+        cout << elm << " ";
+  
+    return 0;   
+}
+
