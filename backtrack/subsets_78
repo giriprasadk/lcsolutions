@@ -1,0 +1,71 @@
+
+/* Method1 - backtracking
+
+vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> ret;
+        vector<int> stack;
+        int k = nums.size();
+        ret.push_back(stack);
+        if(k == 0)
+            return ret;
+        for(int i = 1; i <= k; i++)
+        {
+            subsetsUtil(nums, i, stack, ret, 1);
+        }
+        return ret;
+    }
+
+private:
+    void subsetsUtil(vector<int> &nums, int k, vector<int> &stack, vector<vector<int>> &ret, int start)
+    {
+        int n = nums.size();
+        if(k == 0) {
+            ret.push_back(stack);
+            return;
+        }
+        
+        for(int i = start; i <= n-k+1; i++) {
+            stack.push_back(nums[i-1]);
+            subsetsUtil(nums, k - 1, stack, ret, i+1);
+            stack.pop_back();
+        }      
+    }
+
+/* Method 2 -backtracking
+
+void subsetsUtil(vector<int>& A, vector<vector<int> >& res, 
+                 vector<int>& subset, int index) 
+{ 
+    for (int i = index; i < A.size(); i++) { 
+  
+        // include the A[i] in subset. 
+        subset.push_back(A[i]); 
+        res.push_back(subset); 
+  
+        // move onto the next element. 
+        subsetsUtil(A, res, subset, i + 1); 
+  
+        // exclude the A[i] from subset and triggers 
+        // backtracking. 
+        subset.pop_back(); 
+    } 
+  
+    return; 
+} 
+  
+// below function returns the subsets of vector A. 
+vector<vector<int> > subsets(vector<int>& A) 
+{ 
+    vector<int> subset; 
+    vector<vector<int> > res; 
+  
+    // include the null element in the set. 
+    res.push_back(subset); 
+  
+    int index = 0; 
+    subsetsUtil(A, res, subset, index); 
+  
+    return res; 
+} 
+
+
