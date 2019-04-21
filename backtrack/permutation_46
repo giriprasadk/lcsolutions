@@ -1,0 +1,55 @@
+/* Method 1 */
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> res;
+        if(nums.empty())
+            return res;
+        
+        int n = nums.size();
+        vector<int> perm;
+        vector<bool> used(n, false);        
+        permuteUtil(nums, res, perm, n, 0, used);
+        return res;
+    }
+
+private:
+    void permuteUtil(vector<int> &nums, vector<vector<int>> &res, vector<int> &perm, int k, int index, vector<bool> &used)
+    {         
+        if(index == k){
+            res.push_back(perm);
+            return;
+        }
+        for(int i = 0; i < k; i++) {
+            if(used[i] == false) {
+                used[i] = true; 
+                perm.push_back(nums[i]);
+                permuteUtil(nums, res, perm, k, index+1, used);
+                perm.pop_back();
+                used[i] = false;    
+            }    
+        }   
+    }
+    
+    
+    /* Method 2 */
+    public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> res;        
+        int n = nums.size();
+        permuteUtil(nums, 0, n, res);    
+        return res;
+    }
+private:  
+           
+    void permuteUtil(vector<int> &nums, int s, int e, vector<vector<int>>&res) {        
+        if(s >= e-1) {            
+            res.push_back(nums);    
+            return;
+        }         
+            
+         for(int i = s; i < e; i++) {
+            swap(nums[s], nums[i]);
+            permuteUtil(nums, s+1, e, res);
+            swap(nums[s], nums[i]);            
+        }
+    }
