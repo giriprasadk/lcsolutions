@@ -1,0 +1,26 @@
+public:
+    vector<string> letterCombinations(string digits) {
+        vector<string> res;
+        if(digits.empty())
+            return res;
+        
+        vector<string> letPad = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        string str;
+        letterCombUtil(digits, letPad, res, str, 0);
+        return res;
+    }
+private:
+    void letterCombUtil(string digits, vector<string> &letPad, vector<string> &res, string str, int index) 
+    {
+        if(index == digits.size()) {
+            res.push_back(str);
+            return;
+        }
+        
+        int len = letPad[digits[index]-'0'-2].length();
+        for(int i = 0; i < len; i++) {
+            str.push_back(letPad[digits[index]-'0'-2][i]);
+            letterCombUtil(digits, letPad, res, str, index+1);
+            str.pop_back();
+        }
+    }
