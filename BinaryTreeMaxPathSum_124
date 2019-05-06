@@ -1,0 +1,31 @@
+public:
+    int maxSum = INT_MIN;
+    
+    int maxPathSum(TreeNode* root) {
+        if(root == NULL) {
+            return 0;
+        }
+        maxPathSumUtil(root);
+        return maxSum;
+    }
+    
+private:
+    vector<int> maxPathSumUtil(TreeNode *root) {
+        vector<int> res(2, 0);
+        if(root == NULL) {
+            return res;
+        }
+        
+        vector<int> left = maxPathSumUtil(root->left);
+        vector<int> right = maxPathSumUtil(root->right);
+        
+        int l = max(root->val, root->val + left[0]);
+        int r = max(root->val, root->val + right[0]);
+        int s = max(root->val, root->val + left[0] + right[0]);
+        
+        res[0] = max(l, r);
+        res[1] = s;
+        maxSum = max(maxSum, max(res[0], res[1]));
+                
+        return res;
+    }
