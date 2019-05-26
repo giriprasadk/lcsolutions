@@ -57,8 +57,7 @@ int getLaneChanges(vector<int> obstacleLanes, int currLane, int k)
   for (int nextLane = 1; nextLane <= NUM_LANES; ++nextLane) {
     if (nextLane == currLane)
       continue;
-    int currChange = abs(currLane-nextLane) + 
-                getLaneChanges(obstacleLanes, nextLane, k+1);
+    int currChange = 1 + getLaneChanges(obstacleLanes, nextLane, k+1);
     totalLaneChanges = min(totalLaneChanges, currChange);
   }
   return totalLaneChanges;
