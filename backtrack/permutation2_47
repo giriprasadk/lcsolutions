@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>> res;
+        if(nums.empty())
+            return res;
+        
+        int n = nums.size();
+        vector<int> perm;
+        map<int, int> mp;
+        for(int x: nums) {
+            mp[x]++;
+        }
+       
+        permuteUtil(mp, res, perm, n);
+        return res;    
+    }
+
+private:
+    void permuteUtil(map<int, int> &mp, vector<vector<int>> &res, vector<int> &perm, int n)
+    {         
+        if(n == 0){
+            res.push_back(perm);
+            return;
+        }
+        for(auto it = mp.begin(); it != mp.end(); it++) {
+            int count = it->second;
+            if(count > 0) {
+                mp[it->first]--;
+                perm.push_back(it->first);
+                permuteUtil(mp, res, perm, n-1);
+                mp[it->first]++;
+                perm.pop_back();
+            }    
+        }   
+    }
+};
