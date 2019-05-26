@@ -1,0 +1,71 @@
+/* Question
+ * Arthur is playing the "Racing car" arcade game. In this game, Arthur is controlling a car which he can move sideways
+ * but the car keeps on moving forward at all times. Arthur can move his car in any lane at any movement. There are 
+ * some obstacles on the trace and no two obstacles share the same position on the track. There are 3 lanes in the game
+ * and Arthur start the game from the middle lane.Arthur wants to know the minimum sideways movements he need  to make
+ * in order to complete the game. Note that a movement at one moment, be it from lane 1 to lane 3, is counted as single
+ * movement. 
+ * For example n = 3 obstacles, with the lane of obstacleslanes = [2,1,2], Arthur can move the car in this first second 
+ * to lane 3 and total number of movements required is 1 (from 2 to 3)
+ */
+
+ /* Method 1 - The basic idea is at the target location cost for all 3 lanes are 0. However whenever an obstacle in one 
+  * of the 3 locations then its cost is 1 + minimum of other 2 locations. Otherwise its cost is same as previous location 
+  * (1 unit closer to the target)
+  */
+ 
+ using namespace std;
+int getLaneChanges(vector<int> obstacleLanes)
+{
+    int cost_lane1(0), cost_lane2(0), cost_lane3(0);
+    for(int i=obstacleLanes.size()-1; i>=0; i--){
+        switch(obstacleLanes[i]){
+            case 1: cost_lane1 = 1 + min(cost_lane3, cost_lane2); break;
+            case 2: cost_lane2 = 1 + min(cost_lane1, cost_lane3); break;
+            case 3: cost_lane3 = 1 + min(cost_lane1, cost_lane2); break;
+        }
+        cout<<"c1 "<<cost_lane1<<" c2 "<<cost_lane2<<" c3 "<<cost_lane3<<endl;
+    }
+    return cost_lane2; //starting at lane2
+}
+int main() {
+  std::cout << getLaneChanges({2,1,2}) << endl;
+  std::cout << getLaneChanges({2}) << endl;
+  std::cout << getLaneChanges({2,1,3,2,1,3}) << endl;
+}
+
+
+ 
+// Method 2 
+ 
+#include <iostream>
+#include <vector>
+#include <climits>
+#include <cmath>
+
+#define NUM_LANES 3
+using namespace std;
+
+int getLaneChanges(vector<int> obstacleLanes, int currLane, int k)
+{
+  if (k == obstacleLanes.size())
+    return 0;
+  if (obstacleLanes[k] != currLane)
+    return getLaneChanges(obstacleLanes, currLane, k+1);
+  
+  int totalLaneChanges = INT_MAX;
+  for (int nextLane = 1; nextLane <= NUM_LANES; ++nextLane) {
+    if (nextLane == currLane)
+      continue;
+    int currChange = abs(currLane-nextLane) + 
+                getLaneChanges(obstacleLanes, nextLane, k+1);
+    totalLaneChanges = min(totalLaneChanges, currChange);
+  }
+  return totalLaneChanges;
+}
+
+int main() {
+  std::cout << getLaneChanges({2,1,2}, 2, 0) << endl;
+  std::cout << getLaneChanges({2}, 2, 0) << endl;
+  std::cout << getLaneChanges({2,1,3,2,1,3}, 2, 0) << endl;
+}
