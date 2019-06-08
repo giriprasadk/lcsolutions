@@ -1,0 +1,62 @@
+A sequence of number is called arithmetic if it consists of at least three elements and if the difference between any two consecutive elements is the same.
+
+For example, these are arithmetic sequence:
+
+1, 3, 5, 7, 9
+7, 7, 7, 7
+3, -1, -5, -9
+The following sequence is not arithmetic.
+
+1, 1, 2, 5, 7
+
+
+Method 1 - Brute force
+
+class Solution {
+private:
+    bool isArithmeticSlice(vector<int> &A, int start, int end)
+    {        
+        int diff = A[start] - A[start+1];
+        while(start < end) {
+            if((A[start]-A[start+1]) != diff)
+                return false;
+            start++;
+        }
+        return true;
+    }
+    
+public:
+    int numberOfArithmeticSlices(vector<int>& A) {
+        if(A.size() < 3) {
+            return 0;
+        }       
+       
+        int count = 0;
+        
+        for(int m = 3; m <= A.size(); m++) {
+            for(int i = 0; i <= A.size()-m; i++) {
+                if(isArithmeticSlice(A, i, i+m-1))
+                    count++;
+            }
+        }
+        return count;
+    }
+};
+
+Method 2 - O(n)
+class Solution {
+public:
+    int numberOfArithmeticSlices(vector<int>& nums) {
+        int ans = 0, count = 2;
+        for (int i = 2; i < nums.size(); ++ i)
+            if (nums[i - 1] - nums[i - 2] != nums[i] - nums[i - 1])
+            {
+                ans += (count - 2) * (count - 1) / 2;
+                count = 2;
+            }else
+                count ++;
+        ans += (count - 2) * (count - 1) / 2;
+        return ans;
+    }
+};
+
