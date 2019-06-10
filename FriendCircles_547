@@ -1,0 +1,26 @@
+class Solution {
+private:
+    void findCircle(vector<vector<int>> &M, int frnd, set<int> &s) {
+        for(int j = 0; j < M[0].size(); j++) {
+            if(M[frnd][j] && (s.find(j) == s.end())) {
+                s.insert(j);
+                findCircle(M, j, s);
+            }
+        }
+    }
+public:
+    int findCircleNum(vector<vector<int>>& M) {
+        if(M.empty())
+            return 0;
+        
+        set<int> s;
+        int count = 0;
+        for(int i = 0; i < M.size(); i++) {
+            if(s.find(i) == s.end()) {
+                findCircle(M, i, s);
+                count++;
+            }
+        }
+        return count;
+    }
+};
