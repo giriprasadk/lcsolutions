@@ -1,0 +1,54 @@
+class Solution {
+private:
+    struct QItem {
+        string word;
+        int count;
+    };
+    
+    bool isAdjacent(string A, string B) {
+        if(A.length() != B.length()) {
+            return false;
+        }
+        int count = 0;
+        for(int i = 0; i < A.length(); i++) {
+            if(A[i] != B[i]) {
+                count++;
+                if(count > 1)
+                    return false;
+            }    
+        }
+        return count == 1 ? true : false;
+    }
+    
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        int len = 0;
+        if(wordList.empty())
+            return len;
+
+        queue<QItem> q;
+        QItem item = {beginWord, 1};
+        q.push(item);
+        
+                
+        while(!q.empty()) {
+            QItem curr = q.front();
+            q.pop();
+            
+            for(int index = 0; index < wordList.size(); index++) {
+                string temp = wordList[index];
+                if(isAdjacent(curr.word, temp)) {
+                    item.word = temp;
+                    item.count = curr.count + 1;
+                    q.push(item);
+                    wordList.erase(wordList.begin()+index);
+                    index--;
+                    
+                    if(endWord == temp)
+                        return item.count;                    
+                }
+            }
+        }
+        return 0;
+    }
+};
