@@ -70,3 +70,5 @@ int numDecodings(string s) {
 
     return dp[s.size()];
     }
+
+https://www.geeksforgeeks.org/count-possible-decodings-given-digit-sequence/
