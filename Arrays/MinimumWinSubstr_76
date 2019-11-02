@@ -1,0 +1,52 @@
+
+
+
+/* All cases not worked */
+private:
+bool validate(unordered_map<char, int> &mp, unordered_map<char, int> &op) {    
+    for(auto it = op.begin(); it != op.end(); it++) {
+        if(mp[it->first] != it->second) {
+            return false;
+        }        
+    }
+    return true;
+}
+    
+public:
+    string minWindow(string s, string t) {
+        string res;
+        if(s.empty() || t.empty())
+            return res;
+                
+        int start = -1, n = s.length(), minSize = INT_MAX, minStart = -1;
+        unordered_map<char, int> mp, op;
+        queue<int> q;
+        
+        for(char c: t) {
+            op[c]++;
+        }
+        
+        for(int i = 0; i < n; i++) {
+            if(t.find(s[i]) != string::npos) {                
+                if(mp[s[i]] < op[s[i]]) {
+                    mp[s[i]]++;                
+				}
+                q.push(i);
+                start = q.front();
+                
+                if(validate(mp, op)) {
+                    int temp = q.back() - q.front() + 1;
+                    if(temp < minSize) {
+                        minSize = temp;
+                        minStart = start;
+                    }
+                    q.pop();
+                }
+            }          
+        }
+        
+        if(minStart != -1)
+            return s.substr(minStart, minSize);
+        else
+            return res;
+    }
